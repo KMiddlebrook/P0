@@ -7,6 +7,6 @@ public class Storefront
     public string? City { get; set; }
     public string? State { get; set; }
     public string? Name { get; set; }
-    public List<Inventory> Inventories { get; set; }
-    public List<Order> Orders { get; set; }
+    public List<Inventory>? Inventories { get; set; }
+    public List<Order>? Orders { get; set; }
 }

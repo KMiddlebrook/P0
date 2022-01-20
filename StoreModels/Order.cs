@@ -6,7 +6,7 @@ public class Order
     public string? OrderDate { get; set; }
     public string? Customer { get; set; }
     public string? StoreName { get; set; }
-    public List<LineItem> LineItems { get; set; }
+    public List<LineItem>? LineItems { get; set; }
     public decimal Total { get; set; }
     public decimal CalculateTotal() {
         //a method that would go through each lineitem in LineItems property

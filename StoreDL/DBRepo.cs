@@ -50,7 +50,7 @@ public class DBRepo
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            string myQuery = "SELECT * FROM StoreFront";
+            string myQuery = "SELECT * FROM Store";
             
             using(SqlCommand cmd = new SqlCommand(myQuery, connection))
             {
@@ -80,7 +80,7 @@ public class DBRepo
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            string myQuery = $"SELECT Orders.ID, Orders.OrderDate, Storefront.Name, Customer.Username, Orders.TOTAL FROM Orders INNER JOIN Customer ON Orders.Customer_ID = Customer.ID INNER JOIN Storefront ON Orders.StoreFront_ID = Storefront.ID WHERE Customer_ID='{incomingCustomer.Id}'";
+            string myQuery = $"SELECT Orders.ID, Orders.OrderDate, Store.Name, Customer.Username, Orders.TOTAL FROM Orders INNER JOIN Customer ON Orders.Customer_ID = Customer.ID INNER JOIN Store ON Orders.StoreID = Store.ID WHERE Customer_ID='{incomingCustomer.Id}'";
             
             using(SqlCommand cmd = new SqlCommand(myQuery, connection))
             {
@@ -111,7 +111,7 @@ public class DBRepo
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            string myQuery = $"SELECT Inventory.ID, Inventory.Quantity, Inventory.ID,Product.Name,Product.Description, Product.Price, StoreFront_ID FROM Inventory INNER JOIN Product ON Inventory.ProductID = Product.ID WHERE StoreFront_ID='{IncomingStore.ID}'";
+            string myQuery = $"SELECT Inventory.ID, Inventory.Quantity, Inventory.ID,Product.Name,Product.Description, Product.Price, StoreID FROM Inventory INNER JOIN Product ON Inventory.ProductID = Product.ID WHERE StoreID='{IncomingStore.ID}'";
             
             
             using(SqlCommand cmd = new SqlCommand(myQuery, connection))
@@ -168,7 +168,35 @@ public class DBRepo
         return allProduct;
     }
 
-    
+    //add new stores
+    public void AddStore(Storefront storeToAdd)
+    {
+        DataSet storeSet = new DataSet();
+        string selectCmd = "SELECT * FROM Store";
+        using(SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            using(SqlDataAdapter dataAdapter = new SqlDataAdapter(selectCmd, connection))
+            {
+                
+                dataAdapter.Fill(storeSet, "Store");
+
+                DataTable? storeTable = storeSet.Tables["Store"];
+                DataRow newRow = storeTable.NewRow();
+                    newRow["Name"]= storeToAdd.Name;
+                    newRow["Address"]= storeToAdd.Address;
+                    newRow["City"]= storeToAdd.City;
+                    newRow["State"]= storeToAdd.State;
+                storeTable.Rows.Add(newRow);
+                
+                string insertCmd = $"INSERT INTO Store (Name, Address, City, State) VALUES ('{storeToAdd.Name}','{storeToAdd.Address}','{storeToAdd.City}', '{storeToAdd.State}')";
+                
+                dataAdapter.InsertCommand= new SqlCommand(insertCmd, connection);
+                
+                dataAdapter.Update(storeTable);
+            }
+        }
+    }
+
     //add new customers
     public void AddCustomer(Customer customerToAdd)
     {
@@ -181,7 +209,7 @@ public class DBRepo
                 
                 dataAdapter.Fill(customerSet, "Customer");
 
-                DataTable customerTable = customerSet.Tables["Customer"];
+                DataTable? customerTable = customerSet.Tables["Customer"];
                 DataRow newRow = customerTable.NewRow();
                     newRow["Username"]= customerToAdd.UserName;
                     newRow["Password"]= customerToAdd.Password;
@@ -209,7 +237,7 @@ public class DBRepo
                 
                 dataAdapter.Fill(customerSet, "Product");
 
-                DataTable customerTable = customerSet.Tables["Product"];
+                DataTable? customerTable = customerSet.Tables["Product"];
                 DataRow newRow = customerTable.NewRow();
                     newRow["Name"]= productToAdd.ProductName;
                     newRow["Description"]= productToAdd.Description;
@@ -237,14 +265,14 @@ public class DBRepo
                 
                 dataAdapter.Fill(customerSet, "Inventory");
 
-                DataTable customerTable = customerSet.Tables["Inventory"];
+                DataTable? customerTable = customerSet.Tables["Inventory"];
                 DataRow newRow = customerTable.NewRow();
                     newRow["Quantity"]= inventoryToAdd.Quantity;
                     newRow["ProductID"]= inventoryToAdd.ProductID;
-                    newRow["StoreFront_ID"]=inventoryToAdd.StoreId;
+                    newRow["StoreID"]=inventoryToAdd.StoreId;
                 customerTable.Rows.Add(newRow);
                 
-                string insertCmd = $"INSERT INTO Inventory (Quantity, ProductID, StoreFront_ID) VALUES ('{inventoryToAdd.Quantity}','{inventoryToAdd.ProductID}','{inventoryToAdd.StoreId}')";
+                string insertCmd = $"INSERT INTO Inventory (Quantity, ProductID, StoreID) VALUES ('{inventoryToAdd.Quantity}','{inventoryToAdd.ProductID}','{inventoryToAdd.StoreId}')";
                 
                 dataAdapter.InsertCommand= new SqlCommand(insertCmd, connection);
                 
@@ -264,17 +292,17 @@ public class DBRepo
                 
                 dataAdapter.Fill(orderSet, "Orders");
 
-                DataTable orderTable = orderSet.Tables["Orders"];
+                DataTable? orderTable = orderSet.Tables["Orders"];
                 DataRow newRow = orderTable.NewRow();
                     newRow["OrderDate"]= incomingOrder.OrderDate;
-                    newRow["StoreFront_ID"]= selectedStore.ID;
-                    newRow["Customer_ID"]=incomingCustomer.Id;
-                    newRow["TOTAL"] = incomingOrder.Total;
+                    newRow["StoreName"]= selectedStore.ID;
+                    newRow["Customer"]=incomingCustomer.Id;
+                    newRow["Total"] = incomingOrder.Total;
                 orderTable.Rows.Add(newRow);
                 
-                string insertCmd = $"INSERT INTO Orders (OrderDate, StoreFront_ID, Customer_ID, TOTAL) VALUES ('{incomingOrder.OrderDate}', '{selectedStore.ID}', '{incomingCustomer.Id}', '{incomingOrder.Total}')";
+                string insertCmd = $"INSERT INTO Orders (OrderDate, StoreID, Customer_ID, TOTAL) VALUES ('{incomingOrder.OrderDate}', '{selectedStore.ID}', '{incomingCustomer.Id}', '{incomingOrder.Total}')";
                 
-                dataAdapter.InsertCommand= new SqlCommand(insertCmd, connection);
+                dataAdapter.InsertCommand = new SqlCommand(insertCmd, connection);
                 
                 dataAdapter.Update(orderTable);
             }
