@@ -12,16 +12,16 @@ public class CustomerMenu
         List<Order> newOrderList = new List<Order>();
         List<LineItem> cart = new List<LineItem>();
         bool exit = false;
-        Console.WriteLine("Successfull Login");
+        Console.WriteLine("Welcome back!");
         Console.WriteLine(" ");
         while(!exit)
         {
         Console.WriteLine("What would you like to do?");
         Console.WriteLine("[1] See All Stores");
-        Console.WriteLine("[2] Add Items to Cart");
+        Console.WriteLine("[2] Shop");
         Console.WriteLine("[3] See Cart");
         Console.WriteLine("[4] See Order History");
-        Console.WriteLine("[x] Exit");
+        Console.WriteLine("[x] Sign Out");
         string? input = Console.ReadLine();
 
             switch(input)
@@ -75,7 +75,7 @@ public class CustomerMenu
                         cart.Add(addToCart);
 
                         Console.WriteLine("would you like to add another? [y/n]");
-                        string addAnother = Console.ReadLine();
+                        string? addAnother = Console.ReadLine();
                         if(addAnother == "n")
                         {
                             stopAdding = true;
@@ -95,11 +95,11 @@ public class CustomerMenu
                     Console.WriteLine($"Customer: {OrderHistory.Customer}\nDate of purchase: {OrderHistory.OrderDate}\nPurchase Total: {OrderHistory.Total}");
                 }
                 break;
-                case "5":
+                case "x":
                     exit = true;
                 break;
                 default:
-                    Console.WriteLine("Invalid input");
+                    Console.WriteLine("Invalid Input");
                 break;
             }
         }

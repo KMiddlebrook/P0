@@ -21,7 +21,7 @@ public class CustomerCheckout
             Console.WriteLine("[2] See Cart");
             Console.WriteLine("[3] Checkout");
             Console.WriteLine("[4]Go back");
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
 
             switch(input)
             {
@@ -56,7 +56,7 @@ public class CustomerCheckout
                         cart.Add(addToCart);
 
                         Console.WriteLine("would you like to add another? [y/n]");
-                        string addAnother = Console.ReadLine();
+                        string? addAnother = Console.ReadLine();
                         if(addAnother == "n")
                         {
                             stopAdding = true;

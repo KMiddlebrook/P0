@@ -14,11 +14,12 @@ public class ManagerMenu
 
         while(!exit)
         {
+            Console.WriteLine(" ");
             Console.WriteLine("----Admin Dashboard----");
-            Console.WriteLine("[1] Manage Store Info");
+            Console.WriteLine("[1] Manage Stores");
             Console.WriteLine("[2] View All Stores");
             Console.WriteLine("[3] View All Customers ");
-            Console.WriteLine("[4] Exit");
+            Console.WriteLine("[x] Signout Admin");
             string? input = Console.ReadLine();
 
             switch(input)
@@ -46,7 +47,7 @@ public class ManagerMenu
                     Console.WriteLine("***************************");
                 }
                 break;
-                case "4":
+                case "x":
                 exit = true;
                 break;
                 default:

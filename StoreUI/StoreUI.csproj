@@ -20,4 +20,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+<PropertyGroup>
+    <UseAppHost>false</UseAppHost>
+</PropertyGroup>
+
 </Project>

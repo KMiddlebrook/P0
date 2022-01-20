@@ -10,7 +10,7 @@ public class store
     
     public void manageStores(List<Storefront> IncomingStores)
     {
-
+        DBRepo dbRepo = new DBRepo();
         bool goBack = false;
 
         while(!goBack)
@@ -18,26 +18,26 @@ public class store
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("[1] Create New Store");
             Console.WriteLine("[2] Manage Inventory");
-            Console.WriteLine("[3] Go back");
-            string? managerInput = Console.ReadLine();
+            Console.WriteLine("[3] Admin Dashboard");
+            string? adminInput = Console.ReadLine();
 
-            switch(managerInput)
+            switch(adminInput)
             {
                 case "1":
                     Storefront newStore = new Storefront();
-                    Console.WriteLine("Enter Store Name: ");
+                    Console.WriteLine("Enter Store Name:");
                     string? newName = Console.ReadLine();
-                    newStore.Name = newName;
                     Console.WriteLine("Enter Address:");
                     string? newAddress = Console.ReadLine();
-                    newStore.Address= newAddress;
                     Console.WriteLine("Enter City:");
                     string? newCity = Console.ReadLine();
-                    newStore.City = newCity;
                     Console.WriteLine("Enter State:");
                     string? newState = Console.ReadLine();
+                    newStore.Name = newName;
+                    newStore.Address= newAddress;
+                    newStore.City = newCity;
                     newStore.State = newState;
-                    AllStores.allStores.Add(newStore);
+                    dbRepo.AddStore(newStore);
                 break;
                 case "2":
                     DBRepo dbRepoStores = new DBRepo();
@@ -54,7 +54,7 @@ public class store
                     goBack = true;
                 break;
                 default:
-                    Console.WriteLine("Invalid input");
+                    Console.WriteLine("Invalid Input");
                 break;
             }
         }

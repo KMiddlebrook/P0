@@ -14,19 +14,20 @@ public class MainMenu
         List<Customer> customers = dbRepo.GetAllCustomers();
 
         Customer Manager = new Customer();
-        string managerUsername = "Manager";
+        string managerUsername = "Admin";
         string managerPassword = "admin123";
         Manager.UserName = managerUsername;
         Manager.Password = managerPassword;
         AllCustomers.allCustomers.Add(Manager);
 
         bool exit = false;
+        Console.WriteLine("Welcome to Batons LA!");
+        Console.WriteLine(" ");
 
         while (!exit)
         {
-        
-            Console.WriteLine("Welcome to Batons LA!");
-            Console.WriteLine("Please make a selection:");
+            Console.WriteLine("===== Main Menu =====");
+            Console.WriteLine(" ");
             Console.WriteLine("[1] Sign In");
             Console.WriteLine("[2] Create New Account");
             Console.WriteLine("[3] Admin Login");
@@ -38,7 +39,7 @@ public class MainMenu
             {
                 case "1": 
                 
-                    bool successfullLogin = false;
+                    bool successfulLogin = false;
 
                     Console.Write("Enter Username: ");
                     string? CustomerUsername = Console.ReadLine();
@@ -50,9 +51,9 @@ public class MainMenu
                         if(CustomerUsername == existing.UserName && CustomerPassword == existing.Password )
                         {
                             customerSignIn.customerMenu(existing);
-                            successfullLogin = true;
+                            successfulLogin = true;
                         }
-                        if(!successfullLogin)
+                        if(!successfulLogin)
                         {
                             Console.WriteLine("Invalid Username or Password");
                             Console.WriteLine("Please try again");
