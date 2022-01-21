@@ -45,9 +45,9 @@ public class store
                     Console.WriteLine("Select a store:");
                     for(int i = 0; i < allstores.Count; i++)
                     {
-                        Console.WriteLine($"[{i}] {allstores[i].Name}\n{allstores[i].Address}\n{allstores[i].City}\n{allstores[i].State}");
+                        Console.WriteLine($"[{i}] {allstores[i].Name}");
                     }
-                    int selection = Int32.Parse(Console.ReadLine());
+                    int selection = Int32.Parse(Console.ReadLine() ?? "");
                     ManageInventory.manageInventory(allstores[selection], selection);
                 break;
                 case "3":

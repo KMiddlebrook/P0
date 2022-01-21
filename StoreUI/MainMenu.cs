@@ -22,10 +22,10 @@ public class MainMenu
 
         bool exit = false;
         Console.WriteLine("Welcome to Batons LA!");
-        Console.WriteLine(" ");
 
         while (!exit)
         {
+            Console.WriteLine(" ");
             Console.WriteLine("===== Main Menu =====");
             Console.WriteLine(" ");
             Console.WriteLine("[1] Sign In");
@@ -53,11 +53,12 @@ public class MainMenu
                             customerSignIn.customerMenu(existing);
                             successfulLogin = true;
                         }
-                        if(!successfulLogin)
-                        {
-                            Console.WriteLine("Invalid Username or Password");
-                            Console.WriteLine("Please try again");
-                        }
+                    }
+                    if(!successfulLogin)
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Invalid username or password.");
+                        Console.WriteLine("Please try again.");
                     }
                 break;
                 case "2":

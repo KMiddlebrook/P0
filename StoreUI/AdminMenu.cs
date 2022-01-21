@@ -35,7 +35,7 @@ public class ManagerMenu
                 foreach(Storefront store in allstores)
                     {
                         Console.WriteLine($"{store.Name}\n{store.Address}\n{store.City}\n{store.State}");
-                        Console.WriteLine("************************************");
+                        Console.WriteLine("------------------------");
                     }
                 break;
                 case "3":
@@ -44,14 +44,14 @@ public class ManagerMenu
                 foreach(Customer existingCustomers in customers)
                 {
                     Console.WriteLine($"Customer: {existingCustomers.UserName} Email: {existingCustomers.Email}");
-                    Console.WriteLine("***************************");
+                    Console.WriteLine("------------------------");
                 }
                 break;
                 case "x":
                 exit = true;
                 break;
                 default:
-                Console.WriteLine("Invalid input");
+                Console.WriteLine("Invalid Input");
                 break;
             }
         }

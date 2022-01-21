@@ -182,10 +182,10 @@ public class DBRepo
 
                 DataTable? storeTable = storeSet.Tables["Store"];
                 DataRow newRow = storeTable.NewRow();
-                    newRow["Name"]= storeToAdd.Name;
-                    newRow["Address"]= storeToAdd.Address;
-                    newRow["City"]= storeToAdd.City;
-                    newRow["State"]= storeToAdd.State;
+                newRow["Name"]= storeToAdd.Name;
+                newRow["Address"]= storeToAdd.Address;
+                newRow["City"]= storeToAdd.City;
+                newRow["State"]= storeToAdd.State;
                 storeTable.Rows.Add(newRow);
                 
                 string insertCmd = $"INSERT INTO Store (Name, Address, City, State) VALUES ('{storeToAdd.Name}','{storeToAdd.Address}','{storeToAdd.City}', '{storeToAdd.State}')";
@@ -211,9 +211,9 @@ public class DBRepo
 
                 DataTable? customerTable = customerSet.Tables["Customer"];
                 DataRow newRow = customerTable.NewRow();
-                    newRow["Username"]= customerToAdd.UserName;
-                    newRow["Password"]= customerToAdd.Password;
-                    newRow["Email"]= customerToAdd.Email;
+                newRow["Username"]= customerToAdd.UserName;
+                newRow["Password"]= customerToAdd.Password;
+                newRow["Email"]= customerToAdd.Email;
                 customerTable.Rows.Add(newRow);
                 
                 string insertCmd = $"INSERT INTO Customer (Username, Password, Email) VALUES ('{customerToAdd.UserName}','{customerToAdd.Password}','{customerToAdd.Email}')";
@@ -228,27 +228,27 @@ public class DBRepo
     // Add new products to storefront
     public void AddProduct(Product productToAdd)
     {
-        DataSet customerSet = new DataSet();
+        DataSet productSet = new DataSet();
         string selectCmd = "SELECT * FROM Product";
         using(SqlConnection connection = new SqlConnection(_connectionString))
         {
             using(SqlDataAdapter dataAdapter = new SqlDataAdapter(selectCmd, connection))
             {
                 
-                dataAdapter.Fill(customerSet, "Product");
+                dataAdapter.Fill(productSet, "Product");
 
-                DataTable? customerTable = customerSet.Tables["Product"];
-                DataRow newRow = customerTable.NewRow();
-                    newRow["Name"]= productToAdd.ProductName;
-                    newRow["Description"]= productToAdd.Description;
-                    newRow["Price"]= productToAdd.Price;
-                customerTable.Rows.Add(newRow);
+                DataTable? productTable = productSet.Tables["Product"];
+                DataRow newRow = productTable.NewRow();
+                newRow["Name"]= productToAdd.ProductName;
+                newRow["Description"]= productToAdd.Description;
+                newRow["Price"]= productToAdd.Price;
+                productTable.Rows.Add(newRow);
                 
                 string insertCmd = $"INSERT INTO Product (Name, Description, Price) VALUES ('{productToAdd.ProductName}','{productToAdd.Description}','{productToAdd.Price}')";
                 
                 dataAdapter.InsertCommand= new SqlCommand(insertCmd, connection);
                 
-                dataAdapter.Update(customerTable);
+                dataAdapter.Update(productTable);
             }
         }
     }
@@ -256,27 +256,27 @@ public class DBRepo
     //Add to inventory
     public void AddToInventory(Inventory inventoryToAdd)
     {
-        DataSet customerSet = new DataSet();
+        DataSet inventorySet = new DataSet();
         string selectCmd = "SELECT * FROM Inventory";
         using(SqlConnection connection = new SqlConnection(_connectionString))
         {
             using(SqlDataAdapter dataAdapter = new SqlDataAdapter(selectCmd, connection))
             {
                 
-                dataAdapter.Fill(customerSet, "Inventory");
+                dataAdapter.Fill(inventorySet, "Inventory");
 
-                DataTable? customerTable = customerSet.Tables["Inventory"];
-                DataRow newRow = customerTable.NewRow();
-                    newRow["Quantity"]= inventoryToAdd.Quantity;
-                    newRow["ProductID"]= inventoryToAdd.ProductID;
-                    newRow["StoreID"]=inventoryToAdd.StoreId;
-                customerTable.Rows.Add(newRow);
+                DataTable? inventoryTable = inventorySet.Tables["Inventory"];
+                DataRow newRow = inventoryTable.NewRow();
+                newRow["Quantity"]= inventoryToAdd.Quantity;
+                newRow["ProductID"]= inventoryToAdd.ProductID;
+                newRow["StoreID"]=inventoryToAdd.StoreId;
+                inventoryTable.Rows.Add(newRow);
                 
                 string insertCmd = $"INSERT INTO Inventory (Quantity, ProductID, StoreID) VALUES ('{inventoryToAdd.Quantity}','{inventoryToAdd.ProductID}','{inventoryToAdd.StoreId}')";
                 
                 dataAdapter.InsertCommand= new SqlCommand(insertCmd, connection);
                 
-                dataAdapter.Update(customerTable);
+                dataAdapter.Update(inventoryTable);
             }
         }
     }
@@ -294,10 +294,10 @@ public class DBRepo
 
                 DataTable? orderTable = orderSet.Tables["Orders"];
                 DataRow newRow = orderTable.NewRow();
-                    newRow["OrderDate"]= incomingOrder.OrderDate;
-                    newRow["StoreName"]= selectedStore.ID;
-                    newRow["Customer"]=incomingCustomer.Id;
-                    newRow["Total"] = incomingOrder.Total;
+                newRow["OrderDate"]= incomingOrder.OrderDate;
+                newRow["StoreName"]= selectedStore.ID;
+                newRow["Customer"]=incomingCustomer.Id;
+                newRow["Total"] = incomingOrder.Total;
                 orderTable.Rows.Add(newRow);
                 
                 string insertCmd = $"INSERT INTO Orders (OrderDate, StoreID, Customer_ID, TOTAL) VALUES ('{incomingOrder.OrderDate}', '{selectedStore.ID}', '{incomingCustomer.Id}', '{incomingOrder.Total}')";

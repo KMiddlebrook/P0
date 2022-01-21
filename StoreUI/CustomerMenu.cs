@@ -3,9 +3,9 @@ using Models;
 using StoreDL;
 public class CustomerMenu
 {
-    public void customerMenu(Customer incomingCustomer)
+    public void customerMenu(Customer currentCustomer)
     {
-        Console.WriteLine($"{incomingCustomer.Id}");
+        Console.WriteLine($"{currentCustomer.Id}");
         DBRepo dbRepoStores = new DBRepo();
         // List<Order> SelectedStoreOrder = new List<Order>();
         List<Inventory> StoreInventory = new List<Inventory>();
@@ -31,7 +31,7 @@ public class CustomerMenu
                 foreach(Storefront store in allstores)
                 {
                     Console.WriteLine($"{store.Name}\n{store.Address}\n{store.City}\n{store.State}");
-                    Console.WriteLine("************************************");
+                    Console.WriteLine("------------------------");
                 }
                 break;
                 case "2":
@@ -40,11 +40,11 @@ public class CustomerMenu
                     Console.WriteLine("Select a Store:");
                     for(int i = 0;i < selectStores.Count;i++)
                     {
-                        Console.WriteLine($"[{i}] {selectStores[i].Name}\n{selectStores[i].Address}\n{selectStores[i].City}\n{selectStores[i].State}");
+                        Console.WriteLine($"[{i}] {selectStores[i].Name}");
                     }
-                    int selection = Int32.Parse(Console.ReadLine());
+                    int selection = Int32.Parse(Console.ReadLine() ?? "");
 
-                    Console.WriteLine($"You Selected:\n{selectStores[selection].Name}\n******************");
+                    Console.WriteLine($"You Selected:\n{selectStores[selection].Name}\n------------------------");
 
                     while(!stopAdding)
                     {
@@ -57,12 +57,12 @@ public class CustomerMenu
                         {
                             Console.WriteLine($"[{i}] Name: {StoreInventory[i].Item.ProductName}\nDescription: {StoreInventory[i].Item.Description}");
                             Console.WriteLine($"Price: {StoreInventory[i].Item.Price}");
-                            Console.WriteLine("**************");
+                            Console.WriteLine("------------------------");
                         }
                         int selectedProduct = Int32.Parse(Console.ReadLine());
                         Console.WriteLine($"you selected: {StoreInventory[selectedProduct].Item.ProductName}");
                         Console.WriteLine("How many would you like to add:");
-                        int quantity = Int32.Parse(Console.ReadLine());
+                        int quantity = Int32.Parse(Console.ReadLine() ?? "");
                         //set values to product
                         productToAdd.ProductName = StoreInventory[selectedProduct].Item.ProductName;
                         productToAdd.Description = StoreInventory[selectedProduct].Item.Description;
@@ -90,7 +90,7 @@ public class CustomerMenu
                 break;
                 case "4":
                 Console.WriteLine("Order History");
-                foreach(Order OrderHistory in incomingCustomer.Orders)
+                foreach(Order OrderHistory in currentCustomer.Orders)
                 {
                     Console.WriteLine($"Customer: {OrderHistory.Customer}\nDate of purchase: {OrderHistory.OrderDate}\nPurchase Total: {OrderHistory.Total}");
                 }

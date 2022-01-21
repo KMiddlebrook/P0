@@ -5,7 +5,7 @@ using StoreDL;
 public class CustomerCheckout
 {
 
-    public void customerCheckout(Customer incomingCustomer, Storefront selectedStorefront)
+    public void customerCheckout(Customer currentCustomer, Storefront selectedStorefront)
     {
         bool exit = false;
         bool stopAdding = false;
@@ -14,13 +14,13 @@ public class CustomerCheckout
         List<LineItem> cart = new List<LineItem>();
         Order newOrder = new Order();
 
-        Console.WriteLine($"You Selected:\n{selectedStorefront.Name}\n******************");
+        Console.WriteLine($"You selected:\n{selectedStorefront.Name}");
         while(!exit)
         {
             Console.WriteLine("[1] Add Items to Cart");
             Console.WriteLine("[2] See Cart");
             Console.WriteLine("[3] Checkout");
-            Console.WriteLine("[4]Go back");
+            Console.WriteLine("[4] Go Back");
             string? input = Console.ReadLine();
 
             switch(input)
@@ -38,12 +38,12 @@ public class CustomerCheckout
                         {
                             Console.WriteLine($"[{i}] Name: {StoreInventory[i].Item.ProductName}\nDescription: {StoreInventory[i].Item.Description}");
                             Console.WriteLine($"Price: {StoreInventory[i].Item.Price}");
-                            Console.WriteLine("**************");
+                            Console.WriteLine("------------------------");
                         }
-                        int selectedProduct = Int32.Parse(Console.ReadLine());
+                        int selectedProduct = Int32.Parse(Console.ReadLine() ?? "");
                         Console.WriteLine($"you selected: {StoreInventory[selectedProduct].Item.ProductName}");
                         Console.WriteLine("How many would you like to add:");
-                        int quantity = Int32.Parse(Console.ReadLine());
+                        int quantity = Int32.Parse(Console.ReadLine() ?? "");
                         //set values to product
                         productToAdd.ProductName = StoreInventory[selectedProduct].Item.ProductName;
                         productToAdd.Description = StoreInventory[selectedProduct].Item.Description;
@@ -78,29 +78,29 @@ public class CustomerCheckout
                     
                 break;
                 case "3":
-                bool checkoutSuccessfull = false;
-                if(newOrder.Total == 0) 
-                {
-                    Console.WriteLine("Add items to cart");
-                }
-                if(newOrder.Total > 0)
-                {
-                    newOrder.OrderDate = DateOnly.FromDateTime(DateTime.Now).ToString();
-                    dbRepoOrders.AddToOrders(incomingCustomer,selectedStorefront,newOrder);
-                    Console.WriteLine("Your order has been submitted");
-                    Console.WriteLine($"Thank you for shopping at {selectedStorefront.Name}");
-                    checkoutSuccessfull = true;
-                    if(checkoutSuccessfull == true)
+                    bool checkoutSuccessfull = false;
+                    if(newOrder.Total == 0) 
                     {
-                        exit =true;
+                        Console.WriteLine("Add items to cart");
                     }
-                }
+                    if(newOrder.Total > 0)
+                    {
+                        newOrder.OrderDate = DateOnly.FromDateTime(DateTime.Now).ToString();
+                        dbRepoOrders.AddToOrders(currentCustomer,selectedStorefront,newOrder);
+                        Console.WriteLine("Your order has been submitted!");
+                        Console.WriteLine($"Thank you for shopping at {selectedStorefront.Name}");
+                        checkoutSuccessfull = true;
+                        if(checkoutSuccessfull == true)
+                        {
+                            exit =true;
+                        }
+                    }
                 break;
                 case "4":
-                exit = true;
+                    exit = true;
                 break;
                 default:
-                Console.WriteLine("invalid input");
+                    Console.WriteLine("Invalid Input");
                 break;
             }
         }
